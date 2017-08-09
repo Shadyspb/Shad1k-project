@@ -23,8 +23,7 @@ end
 
 if hypotenuse**2 == katet1**2 + katet2**2 && katet1 == katet2
   puts "Прямоугольный и Равнобедренный"
-elsif
-  hypotenuse**2 == katet1**2 + katet2**2
+elsif hypotenuse**2 == katet1**2 + katet2**2
   puts "Прямоугольный"
 elsif a == b && b != c || b == c && c != a
   puts "Равнобедренный"
