@@ -1,3 +1,4 @@
+require 'mathn'
 puts "Введите 1 коэффициент"
 a = gets.chomp.to_f
 
@@ -18,6 +19,6 @@ if d > 0
 elsif d == 0
   x1 = -b / (2 * a)
   puts "Дискриминант = #{d}, 1 корень = #{x1}"
-else
+elsif d < 0
   puts "Корней нет"
 end
