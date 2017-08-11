@@ -21,11 +21,12 @@ else
   katet2 = b
 end
 
-if hypotenuse**2 == katet1**2 + katet2**2 && katet1 == katet2
-  puts "Прямоугольный и Равнобедренный"
-elsif
-  hypotenuse**2 == katet1**2 + katet2**2
-  puts "Прямоугольный"
+if hypotenuse**2 == katet1**2 + katet2**2
+  if katet1 == katet2
+    puts "Прямоугольный и Равнобедренный"
+  else
+    puts "Прямоугольный"
+  end
 elsif a == b && b != c || b == c && c != a
   puts "Равнобедренный"
 elsif a == b && b == c && a == c
