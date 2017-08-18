@@ -4,27 +4,23 @@ product = {}
 loop do
   puts 'Введите название товара:'
   name = gets.chomp
-  if name == 'стоп'
-   break
-  end
+  break if name == 'стоп'
+
   puts 'Введите цену:'
-  price = gets.chomp.to_f
+  price = gets.to_f
 
   puts 'Введите количество товара:'
-  quantity = gets.chomp.to_f
+  quantity = gets.to_f
 
-  product[name] = { price => quantity }
+  product[name] = { price: price , quantity: quantity }
 end
 
 total = 0
 
 product.each do |product, description|
-print "#{product}, "
-  description.each do |price, quantity|
-    sum = price * quantity
-    print "Кол-во #{quantity}, Цена за товар #{price}, Всего: #{sum.round(2)} \n"
-    total = total + sum
-  end
+sum = description[:price] * description[:quantity]
+print "#{product},  Кол-во:  #{description[:quantity]}, Цена за товар: #{description[:price]}, Всего: #{sum.round(2)} \n"
+total = total + sum
 end
 
 puts "Общая сумма покупки: #{total.round(2)}"
