@@ -11,7 +11,7 @@ class Station
   end
 
   def types_of_trains(type)
-    trains.select {|train| train.type == type}
+    trains.select { |train| train.type == type }
   end
 
   def delete_train(train)
@@ -31,7 +31,7 @@ class Route
   end
 
   def delete_station(station)
-    stations_list.delete(station) if station != stations_list[0] && station != stations_list[last]
+    stations_list.delete(station) if station != stations_list.first && station != stations_list.last
   end
 end
 
@@ -45,9 +45,8 @@ class Train
     @speed = 0
   end
 
-  def speed_increase(speed)
-    self.speed += speed
-    self.speed = 0 if speed < 0
+  def speed_increase(speed_delta)
+  @speed = [@speed + speed_delta, 0].max
   end
 
   def stop
@@ -69,15 +68,18 @@ class Train
   def set_route(route)
     @route = route
     @station_index = 0
+    current_station.add_train(self)
   end
 
   def forward_movement
+    return if stopped
     current_station.delete_train(self)
     @station_index += 1 if station_index < route.stations_list.size-1
     current_station.add_train(self)
   end
 
   def Backward_movement
+    return if stopped
     current_station.delete_train(self)
     @station_index -= 1 if station_index > 0
     current_station.add_train(self)
@@ -96,6 +98,6 @@ class Train
   end
 
   def previous_station
-    show_station station_index - 1
+    show_station station_index - 1 if station_index > 0
   end
 end
