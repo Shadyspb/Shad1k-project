@@ -1,18 +1,11 @@
 class Train
-  attr_reader :number, :type, :number_of_cars, :speed, :route, :station_index
+  attr_reader :number, :type, :car_amount, :speed, :route, :station_index
 
-  def initialize(number)
+  def initialize(number, type)
     @number = number
     @car_amount = []
     @speed = 0
-  end
-
-  def self.create_passenger(number)
-    Passenger.new(number)
-  end
-
-  def self.create_cargo(number)
-    Cargo.new(number)
+    @type = type
   end
 
   def speed_increase(speed_delta)
@@ -23,16 +16,13 @@ class Train
     @speed = 0
   end
 
-  def stopped
-    speed == 0
-  end
-
-  def attach_a_car(car)
-    @car_amount << car if stopped
+  def attach_a_car(carriage)
+    return "Вы не можете прицепить вагон пока поезд двигается" unless stopped?
+    @car_amount << carriage
   end
 
   def unhook_a_car
-    @car_amount.pop if stopped
+    @car_amount.pop if stopped?
   end
 
   def set_route(route)
@@ -70,4 +60,11 @@ class Train
   def previous_station
     show_station station_index - 1 if station_index > 0
   end
+
+  private
+
+  def stopped?
+    speed == 0
+  end
+  
 end

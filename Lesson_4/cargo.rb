@@ -1,3 +1,0 @@
-class Cargo < Train
-
-end
