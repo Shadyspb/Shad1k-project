@@ -18,7 +18,11 @@ class Train
 
   def attach_a_car(carriage)
     return "Вы не можете прицепить вагон пока поезд двигается" unless stopped?
-    @car_amount << carriage
+      if self.type == carriage.type
+        @car_amount << carriage
+        puts "К поезду #{self.number} успешно прицеплен вагон типа #{self.type}"
+      else puts "Вы можете прицепить вагон только одного типа с поездом"
+      end
   end
 
   def unhook_a_car
@@ -45,20 +49,16 @@ class Train
     current_station.add_train(self)
   end
 
-  def show_station(index)
-     route.stations_list[index]
-  end
-
   def current_station
-    show_station station_index
+    station_at station_index
   end
 
   def next_station
-    show_station station_index + 1
+    station_at station_index + 1
   end
 
   def previous_station
-    show_station station_index - 1 if station_index > 0
+    station_at station_index - 1 if station_index > 0
   end
 
   private
@@ -67,4 +67,8 @@ class Train
     speed == 0
   end
   
+  def station_at(index)
+     route.stations_list[index]
+  end
+
 end

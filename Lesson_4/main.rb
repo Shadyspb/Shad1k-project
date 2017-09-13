@@ -102,14 +102,9 @@ class Main
     menu
   end
 
-  def error
-    puts "Нет такого поезда"
-    menu
-  end
-
   def select_train
     number = gets.chomp.to_i
-    train = @trains.find { |train| train.number == number }
+    @trains.find { |train| train.number == number }
   end
 
   def menu_car
@@ -117,10 +112,10 @@ class Main
     puts "Введите 2 если хотите добавить грузовой вагон"
     input = gets.chomp.to_i
     case input
-    when 1 then @carriage = CarriagePassenger.new
-    when 2 then @carriage = CarriageCargo.new
-    else puts "Ошибка повторите"
-    menu
+      when 1 then @carriage = CarriagePassenger.new
+      when 2 then @carriage = CarriageCargo.new
+      else puts "Ошибка повторите"
+      menu
     end
   end
 
@@ -128,12 +123,7 @@ class Main
     menu_car
     puts "Введите номер поезда к которому хотите прицепить вагон:"
     train = select_train
-    if train.type == carriage.type
-      train.attach_a_car(carriage)
-      puts "К поезду #{train.number} успешно прицеплен вагон типа #{train.type}"
-    else
-      puts"Вы можете прицепить вагон только одинакого типа с поездом"
-    end
+    train.attach_a_car(carriage)
     menu
   end
 
