@@ -62,6 +62,9 @@ class Main
     @stations << station
     puts "Станция #{name}  создана"
     menu
+  rescue => e
+    puts e.message
+    menu
   end
 
   def station_list
@@ -100,7 +103,7 @@ class Main
       puts "Поезд номер #{number} создан"
     when 0
     end
-    rescue RuntimeError => e
+  rescue => e
     puts e.message
     menu
   end

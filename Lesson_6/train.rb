@@ -7,6 +7,7 @@ class Train
   include Company
   include Validate
 
+  FORMAT_NUMBER = /^[a-z\d]{3}-?[a-z\d]{2}$/i
   @@trains = {}
 
   def self.find(number)
@@ -23,7 +24,7 @@ class Train
   end
 
   def speed_increase(speed_delta)
-  @speed = [@speed + speed_delta, 0].max
+    @speed = [@speed + speed_delta, 0].max
   end
 
   def stop
@@ -32,11 +33,12 @@ class Train
 
   def attach_a_car(carriage)
     return "Вы не можете прицепить вагон пока поезд двигается" unless stopped?
-      if self.type == carriage.type
-        @car_amount << carriage
-        puts "К поезду #{self.number} успешно прицеплен вагон типа #{self.type}"
-      else puts "Вы можете прицепить вагон только одного типа с поездом"
-      end
+    if self.type == carriage.type
+      @car_amount << carriage
+      puts "К поезду #{self.number} успешно прицеплен вагон типа #{self.type}"
+    else
+      puts "Вы можете прицепить вагон только одного типа с поездом"
+    end
   end
 
   def unhook_a_car
@@ -77,11 +79,8 @@ class Train
 
   protected
 
-  FORMAT_NUMBER = /^[a-z\d]{3}-?[a-z\d]{2}$/i
-
   def validate!
     raise 'Номер имеет неправильный формат!' if number !~ FORMAT_NUMBER
-    true
   end
 
   def stopped?

@@ -1,3 +1,5 @@
+require './validate'
+
 class Station
   attr_reader :trains, :name
 
@@ -29,6 +31,5 @@ class Station
 
   def validate!
     raise "Только буквы от А до Я и больше или равно 2 символам" if name !~ FORMAT_NAME
-    true
   end
 end
