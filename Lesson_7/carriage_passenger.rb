@@ -3,18 +3,18 @@ class CarriagePassenger < Carriage
     super(:passenger)
     @num = num.to_i
     @place = place.to_i
-    @takeed_place = 0
+    @taken_place = 0
   end
 
   def take_place
-    @takeed_place += 1
+    @taken_place += 1 if @taken_place < @place
   end
 
   def free_place
-    @place - @takeed_place
+    @place - @taken_place
   end
 
-  def look_free_places
-    "Номер вагона #{num} тип #{self.type}, занято мест - #{@takeed_place}, свободных мест - #{free_place}"
+  def to_s
+    "Номер вагона #{num} тип #{self.type}, занято мест - #{@taken_place}, свободных мест - #{free_place}"
   end
 end

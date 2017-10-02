@@ -12,7 +12,7 @@ class Station
     @@stations
   end
 
-  def all_trains
+  def each_train
      @trains.each { |train| yield(train) }
   end
 

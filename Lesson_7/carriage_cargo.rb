@@ -2,19 +2,19 @@ class CarriageCargo < Carriage
   def initialize(num, capacity)
     super(:cargo)
     @num = num.to_i
-    @capacity = capacity.to_i
+    @capacity = capacity.to_f
     @free_capacity = @capacity
   end
 
   def load(capacity)
-    @free_capacity -= capacity
+    @free_capacity -= capacity if @free_capacity -= capacity > 0
   end
 
-  def occupy_capacity
+  def occupied_place
     @capacity - @free_capacity
   end
 
-  def look_free_capacity
+  def to_s
     "Номер вагона - #{num} тип - #{self.type}, занятый объём - #{occupy_capacity}, cвободный объем - #{@free_capacity}"
   end
 end

@@ -77,7 +77,7 @@ class Train
     station_at station_index - 1 if station_index > 0
   end
 
-  def all_carriage
+  def each_carriage
     @carriage.each { |carriage| yield(carriage) }
   end
 
