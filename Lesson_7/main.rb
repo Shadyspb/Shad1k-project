@@ -32,6 +32,7 @@ class Main
     puts "10 - Назначить маршрут поезду"
     puts "11 - Переместить поезд по маршруту вперед"
     puts "12 - Переместить поезд по маршруту назад"
+    puts "13 - Занять место в вагоне или Объем"
     puts "0 - Выход"
     input = gets.chomp.to_i
 
@@ -48,6 +49,7 @@ class Main
       when 10 then appoint_route
       when 11 then go
       when 12 then back
+      when 13 then take_to
       when 0 then abort
       menu
     end
@@ -103,6 +105,7 @@ class Main
       puts "Поезд номер #{number} создан"
     when 0
     end
+    menu
   rescue => e
     puts e.message
     menu
@@ -125,7 +128,7 @@ class Main
         place = gets.to_i
         @carriage = CarriagePassenger.new(num, place)
       when 2
-        puts "Для создания пассажирского вагона введите номер вагона"
+        puts "Для создания грузового вагона введите номер вагона"
         num = gets.chomp
         puts "Для создания грузового вагона введите объем"
         capacity = gets.chomp
@@ -133,6 +136,26 @@ class Main
       else puts "Ошибка повторите"
       menu
     end
+  end
+
+  def select_carriage
+    train = select_train
+    puts "Введите номер вагона"
+    number = gets.to_i
+    carriage = train.carriage[number - 1]
+  end
+
+  def take_to
+    if carriage.class == CarriagePassenger
+      carriage.take_place
+      puts "Место успешно занято, свободных мест: #{@carriage.free_place}"
+    elsif carriage.class == CarriageCargo
+      puts "Введите занимаемый объем"
+      capacity = gets.to_f
+      carriage.load_capacity(capacity)
+      puts "Объем успешно занят, #{@carriage.to_s}"
+    end
+    menu
   end
 
   def attach_car
@@ -164,6 +187,8 @@ class Main
     @routes << @route
     menu
   end
+
+
 
   def add_station_route
     station_list
