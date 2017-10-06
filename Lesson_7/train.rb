@@ -2,7 +2,7 @@ require './company'
 require './validate'
 
 class Train
-  attr_reader :number, :type, :car_amount, :speed, :route, :station_index
+  attr_reader :number, :type, :car_amount, :speed, :route, :station_index, :carriage
 
   include Company
   include Validate

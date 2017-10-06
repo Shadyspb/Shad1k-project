@@ -33,6 +33,7 @@ class Main
     puts "11 - Переместить поезд по маршруту вперед"
     puts "12 - Переместить поезд по маршруту назад"
     puts "13 - Занять место в вагоне или Объем"
+    puts "44 - Вывести на экран список вагонов у поезда"
     puts "0 - Выход"
     input = gets.chomp.to_i
 
@@ -49,7 +50,8 @@ class Main
       when 10 then appoint_route
       when 11 then go
       when 12 then back
-      when 13 then take_to
+      when 13 then take_place_or_capacity
+      when 44 then carriage_show
       when 0 then abort
       menu
     end
@@ -72,15 +74,6 @@ class Main
   def station_list
     puts "Станции пока не созданы" if stations.empty?
     stations.each { |station| puts station.name }
-  end
-
-  def trains_list
-    station_list
-    puts "Выберите станцию:"
-    input = gets.chomp.capitalize
-    current_station = @stations.find { |station|  station.name == input }
-    puts "На станции #{current_station.name} сейчас #{current_station.trains.size} поездов"
-    menu
   end
 
   def create_train
@@ -145,7 +138,7 @@ class Main
     carriage = train.carriage[number - 1]
   end
 
-  def take_to
+  def take_place_or_capacity
     if carriage.class == CarriagePassenger
       carriage.take_place
       puts "Место успешно занято, свободных мест: #{@carriage.free_place}"
@@ -154,6 +147,29 @@ class Main
       capacity = gets.to_f
       carriage.load_capacity(capacity)
       puts "Объем успешно занят, #{@carriage.to_s}"
+    end
+    menu
+  end
+
+  def trains_list
+    @stations.each do |station|
+      puts "Station: '#{station.name}'"
+      station.each_train { |train| puts "Номер поезда: #{train.number} Тип поезда: #{train.type} Кол-во вагонов: #{train.car_amount.length}" }
+    end
+  end
+
+  def carriage_show
+    puts "Введите номер поезда"
+    train = select_train
+    number = 0
+    if train.class == PassengerTrain
+      train.car_amount.each.with_index(1) do |carriage, carriage_number|
+      puts "Номер вагона: #{carriage_number}, Тип вагона: #{train.type}, Свободных мест #{carriage.free_place}, Занятые Места #{carriage.take_place}"
+      end
+    elsif train.class == CargoTrain
+      train.car_amount.each.with_index(1) do |carriage, carriage_number|
+      puts "Номер вагона: #{carriage_number}, Тип вагона: #{train.type}, Cвободный объем: #{carriage.occupied_place}, Занятый обьем #{carriage.load_capacity}"
+      end
     end
     menu
   end
@@ -187,8 +203,6 @@ class Main
     @routes << @route
     menu
   end
-
-
 
   def add_station_route
     station_list

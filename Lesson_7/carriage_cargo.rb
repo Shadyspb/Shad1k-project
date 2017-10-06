@@ -11,7 +11,7 @@ class CarriageCargo < Carriage
   end
 
   def occupied_place
-    free_capacity = @capacity - @load_capacity
+    @capacity - @load_capacity
   end
 
   def to_s
