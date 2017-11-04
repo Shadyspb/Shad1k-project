@@ -7,9 +7,9 @@ module Validation
   module ClassMethods
     attr_reader :validations
 
-    def validate(name, type, opt = nil)
+    def validate(name, type, _opt = nil)
       @validations ||= []
-      @validations << { name: name, type: type, opt: opt }
+      @validations << { name: name, type: type, opt: _opt }
     end
   end
 
@@ -33,12 +33,12 @@ module Validation
       raise ArgumentError, 'Пустое значение или пустая строка' if send(name.to_s).to_s.empty?
     end
 
-    def validation_format(value, format_value)
-      raise ArgumentError, 'Неправильный формат' if send(value) !~ format_value
+    def validation_format(name, format_value)
+      raise ArgumentError, 'Неправильный формат' if send(name) !~ format_value
     end
 
-    def validation_type(value, type)
-      raise ArgumentError, 'Неправильный Тип' unless send(value).is_a?(type)
+    def validation_type(name, type)
+      raise ArgumentError, 'Неправильный Тип' unless send(name).is_a?(type)
     end
   end
 end
