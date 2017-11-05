@@ -17,7 +17,7 @@ def strong_attr_accessor(name, class_name)
    var_name = "@#{name}"
    define_method(name) { instance_variable_get(var_name) }
    define_method("#{name}=") do |value|
-     raise 'Не верный класс' unless value.is_a?
+     raise 'Не верный класс' unless value.is_a?(class_name)
      instance_variable_set(var_name, value)
    end
  end
