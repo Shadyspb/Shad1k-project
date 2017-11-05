@@ -29,16 +29,16 @@ module Validation
 
     private
 
-    def validate_presence(name, _opt = nil)
-      raise ArgumentError, 'Пустое значение или пустая строка' if name.to_s.empty?
+    def validate_presence(value, _opt = nil)
+      raise ArgumentError, 'Пустое значение или пустая строка' if value.to_s.empty?
     end
 
-    def validate_format(name, format_value)
-      raise ArgumentError, 'Неправильный формат' if name !~ format_value
+    def validate_format(value, format_value)
+      raise ArgumentError, 'Неправильный формат' if value !~ format_value
     end
 
-    def validate_type(name, type)
-      raise ArgumentError, 'Неправильный Тип' unless name.class.is_a?(type)
+    def validate_type(value, type)
+      raise ArgumentError, 'Неправильный Тип' unless value.class.is_a?(type)
     end
   end
 end
