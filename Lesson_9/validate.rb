@@ -7,16 +7,20 @@ module Validation
   module ClassMethods
     attr_reader :validations
 
-    def validate(name, type, opt = nil)
-      @validations ||= []
-      @validations << { name: name, type: type, opt: opt }
+    def validate(name, validation_type, opt = 0)
+      @validations ||= {}
+      @validations[name] ||= {}
+      @validations[name].merge!(validation_type => opt)
     end
   end
 
   module InstanceMethods
     def validate!
-      self.class.validations.each do |validation|
-        send ("validation_#{validation[:type]}"), validation[:name], validation[:opt]
+      self.class.validation_store.each do |name, value|
+        var_name = get_var(name)
+        value.each do |validation_type, opt|
+          send(validation_type, name, opt)
+        end
       end
     end
 
@@ -29,16 +33,16 @@ module Validation
 
     private
 
-    def validate_presence(value, _opt = nil)
-      raise ArgumentError, 'Пустое значение или пустая строка' if value.to_s.empty?
+    def validate_presence(var_name, _opt = nil)
+      raise ArgumentError, 'Пустое значение или пустая строка' if var_name.to_s.empty?
     end
 
-    def validate_format(value, format_value)
-      raise ArgumentError, 'Неправильный формат' if value !~ format_value
+    def validate_format(var_name, format_value)
+      raise ArgumentError, 'Неправильный формат' if var_name !~ format_value
     end
 
-    def validate_type(value, type)
-      raise ArgumentError, 'Неправильный Тип' unless value.class.is_a?(type)
+    def validate_type(var_name, type)
+      raise ArgumentError, 'Неправильный Тип' unless var_name.class.is_a?(type)
     end
   end
 end
