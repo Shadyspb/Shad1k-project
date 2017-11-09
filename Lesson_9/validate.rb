@@ -16,8 +16,8 @@ module Validation
 
   module InstanceMethods
     def validate!
-      self.class.validation_store.each do |name, value|
-        var_name = get_var(name)
+      self.class.validations.each do |name, value|
+        var_name = send(name)
         value.each do |validation_type, opt|
           send(validation_type, name, opt)
         end
