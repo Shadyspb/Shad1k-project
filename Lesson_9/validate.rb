@@ -17,9 +17,9 @@ module Validation
   module InstanceMethods
     def validate!
       self.class.validations.each do |name, value|
-        var_name = send(name)
+        attr = send(name)
         value.each do |validation_type, opt|
-          send(validation_type, name, opt)
+          send(validation_type, attr, opt)
         end
       end
     end
@@ -33,16 +33,16 @@ module Validation
 
     private
 
-    def validate_presence(var_name, _opt = nil)
-      raise ArgumentError, 'Пустое значение или пустая строка' if var_name.to_s.empty?
+    def validate_presence(attr, _opt = nil)
+      raise ArgumentError, 'Пустое значение или пустая строка' if  attr.to_s.empty?
     end
 
-    def validate_format(var_name, format_value)
-      raise ArgumentError, 'Неправильный формат' if var_name !~ format_value
+    def validate_format(attr, format_value)
+      raise ArgumentError, 'Неправильный формат' if  attr !~ format_value
     end
 
-    def validate_type(var_name, type)
-      raise ArgumentError, 'Неправильный Тип' unless var_name.class.is_a?(type)
+    def validate_type(attr, type)
+      raise ArgumentError, 'Неправильный Тип' unless  attr.class.is_a?(type)
     end
   end
 end
